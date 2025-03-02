@@ -1,16 +1,16 @@
 # **************************************************************************** #
 # DIRECTORIES
-SRC_DIR		:= src/
-INC_DIR		:= inc/
-OBJ_DIR		:= obj/
-LIB_DIR		:= lib/
+SRC_DIR			:= src/
+INC_DIR			:= inc/
+OBJ_DIR			:= obj/
+LIB_DIR			:= ../lib/
 
-LIBFT_DIR	:= $(LIB_DIR)libft/
-LIBFT_INC_DIR:= $(LIBFT_DIR)inc/
+LIBFT_DIR		:= $(LIB_DIR)libft/
+LIBFT_INC_DIR	:= $(LIBFT_DIR)inc/
 
 # **************************************************************************** #
 # PROJECT
-NAME		:= philosophers
+NAME		:= ../philo
 LIBFT		:= $(LIBFT_DIR)libft.a
 
 # **************************************************************************** #
@@ -69,8 +69,8 @@ all: libft $(NAME)
 
 # Rule to create the program
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(IFLAGS) $^ $(LDFLAGS) -o $(NAME)
-	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t$(BG)Compilation success\t✅$(NC)\n"
+	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Compilation success\t✅$(NC)\n"
 	@echo "────────────────────────────────────────────────────────────$(BY)"
 	@echo "▄▄▄▄  ▐▌   ▄ █  ▄▄▄   ▄▄▄  ▄▄▄  ▄▄▄▄  ▐▌   ▗▞▀▚▖ ▄▄▄ ▄▄▄ "
 	@echo "█   █ ▐▌   ▄ █ █   █ ▀▄▄  █   █ █   █ ▐▌   ▐▛▀▀▘█   ▀▄▄  "
@@ -84,7 +84,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t$(NC)$<\r"
+	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(NC)$<\r"
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 # Rule to make the library Libft
@@ -96,14 +96,14 @@ $(LIBFT):
 clean:
 	@$(MAKE) clean -sC $(LIBFT_DIR)
 	@rm -rf $(OBJ_DIR) $(BUILD_MODE_FILE)
-	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t$(BG)Object files cleaned\t❎$(NC)\n"
+	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Object files cleaned\t❎$(NC)\n"
 
 # Rule to clean generated files and the executable
 fclean:
 	@$(MAKE) clean > /dev/null
 	@$(MAKE) fclean -sC $(LIBFT_DIR)
-	@rm -rf $(NAME) $(BONUS_NAME)
-	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t$(BG)Exe and objects cleaned\t❎$(NC)\n"
+	@rm -f $(NAME) $(BONUS_NAME)
+	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Exe and objects cleaned\t❎$(NC)\n"
 
 # Rule to recompile from zero
 re: fclean all
@@ -118,7 +118,7 @@ INC_BONUS_DIR	:= inc/bonus/
 OBJ_BONUS_DIR	:= obj/bonus/
 
 # BONUS FILES
-BONUS_NAME	:= .philosophers_bonus
+BONUS_NAME	:= philo_bonus
 SRC_BONUS_FILES	:= main_bonus
 INC_BONUS_FILES	:= philosophers_bonus
 

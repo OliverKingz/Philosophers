@@ -51,5 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-philosophers
-.build_mode
+philo/philo
+philo/.build_mode
+philo_bonus/philo_bonus
+philo_bonus/.build_mode

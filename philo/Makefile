@@ -6,7 +6,7 @@
 #    By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 01:21:27 by ozamora-          #+#    #+#              #
-#    Updated: 2025/03/03 01:21:30 by ozamora-         ###   ########.fr        #
+#    Updated: 2025/03/03 01:25:09 by ozamora-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,10 +150,6 @@ $(OBJ_BONUS_DIR)%.o: $(SRC_BONUS_DIR)%.c | $(OBJ_BONUS_DIR)
 # **************************************************************************** #
 # NORM AND DEBUG RULES
 
-# Rule to check if the files pass norminette
-norm:
-	@norminette $(SRC_DIR) $(INC_DIR)
-
 # Rule to compile with debug flags
 debug:
 	@if [ ! -f $(BUILD_MODE_FILE) ] || ! grep -q "DEBUG=1" $(BUILD_MODE_FILE); then \
@@ -187,7 +183,6 @@ help:
 	@echo "  $(BB)fclean$(NC)    - Remove object files and executable"
 	@echo "  $(BB)re$(NC)        - Rebuild the project from scratch"
 	@echo "  $(BB)bonus$(NC)     - Build the bonus part of the project"
-	@echo "  $(BB)norm$(NC)      - Check code with norminette"
 	@echo "  $(BB)debug$(NC)     - Build the project with debug flags"
 	@echo "  $(BB)valgrind$(NC)  - Build the project with valgrind flags"
 	@echo "  $(BB)help$(NC)      - Show this help message"
@@ -235,5 +230,5 @@ info:
 	@echo "$(BB)INCS_BONUS: $(NC)$(INCS_BONUS)"
 	@echo "$(BB)IFLAGS_BONUS: $(NC)$(IFLAGS_BONUS)"
 
-.PHONY: all clean fclean re bonus norm debug valgrind
+.PHONY: all clean fclean re bonus debug valgrind
 .DEFAULT_GOAL := all

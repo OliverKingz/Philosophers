@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/03/03 01:19:32 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/03/03 01:20:37 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@
 // int		pthread_mutex_destroy(pthread_mutex_t *mutex);
 // int		pthread_mutex_lock(pthread_mutex_t *mutex);
 // int		pthread_mutex_unlock(pthread_mutex_t *mutex);
-
 
 # endif

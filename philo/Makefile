@@ -3,15 +3,10 @@
 SRC_DIR			:= src/
 INC_DIR			:= inc/
 OBJ_DIR			:= obj/
-LIB_DIR			:= ../lib/
-
-LIBFT_DIR		:= $(LIB_DIR)libft/
-LIBFT_INC_DIR	:= $(LIBFT_DIR)inc/
 
 # **************************************************************************** #
 # PROJECT
-NAME		:= ../philo
-LIBFT		:= $(LIBFT_DIR)libft.a
+NAME		:= philo
 
 # **************************************************************************** #
 # FILES
@@ -29,8 +24,10 @@ INCS	:= $(addprefix $(INC_DIR), $(addsuffix .h, $(INC_FILES)))
 CC		:= cc
 CFLAGS	:= -Wall -Wextra -Werror
 CFLAGS	+= -MMD -MP
-IFLAGS	:= -I$(INC_DIR) -I$(LIBFT_INC_DIR)
-LDFLAGS	:= -L$(LIBFT_DIR) -lft
+CFLAGS	+= -D_GNU_SOURCE # Define GNU_SOURCE for usleep function
+IFLAGS	:= -I$(INC_DIR)
+LDFLAGS	:= -lpthread # Link with pthread library for threading functions
+LDFLAGS	+= -lm       # Link with math library for mathematical functions
 
 # DEBUG MODE
 BUILD_MODE_FILE := .build_mode
@@ -65,10 +62,10 @@ CL	= \033[2K
 -include $(DEPS)
 
 # Default rule to create the program
-all: libft $(NAME)
+all: $(NAME)
 
 # Rule to create the program
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Compilation success\t✅$(NC)\n"
 	@echo "────────────────────────────────────────────────────────────$(BY)"
@@ -87,21 +84,14 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(NC)$<\r"
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-# Rule to make the library Libft
-libft: $(LIBFT)
-$(LIBFT):
-	@$(MAKE) -sC $(LIBFT_DIR)
-
 # Rule to clean generated files
 clean:
-	@$(MAKE) clean -sC $(LIBFT_DIR)
 	@rm -rf $(OBJ_DIR) $(BUILD_MODE_FILE)
 	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Object files cleaned\t❎$(NC)\n"
 
 # Rule to clean generated files and the executable
 fclean:
 	@$(MAKE) clean > /dev/null
-	@$(MAKE) fclean -sC $(LIBFT_DIR)
 	@rm -f $(NAME) $(BONUS_NAME)
 	@printf "%b" "$(CL) -> $(BW)[$(NAME)]:\t\t$(BG)Exe and objects cleaned\t❎$(NC)\n"
 
@@ -129,10 +119,10 @@ DEPS_BONUS	:= $(OBJS_BONUS:.o=.d)
 INCS_BONUS	:= $(addprefix $(INC_BONUS_DIR), $(addsuffix .h, $(INC_BONUS_FILES)))
 
 # BONUS COMPILER FLAGS
-IFLAGS_BONUS:= -I$(INC_BONUS_DIR) -I$(LIBFT_INC_DIR)
+IFLAGS_BONUS:= -I$(INC_BONUS_DIR)
 
 # BONUS RULES
-bonus: libft $(BONUS_NAME)
+bonus: $(BONUS_NAME)
 $(BONUS_NAME): $(OBJS_BONUS)
 	@$(CC) $(CFLAGS) $(IFLAGS_BONUS) $(OBJS_BONUS) $(LDFLAGS) -o $(NAME) 
 	@touch $(BONUS_NAME)
@@ -205,7 +195,6 @@ show:
 info:
 	@echo "$(BY)\nozamora's Project:$(NC)"
 	@echo "$(BB)NAME: $(NC)$(NAME)"
-	@echo "$(BB)LIBFT: $(NC)$(LIBFT)"
 	@echo "$(BB)BONUS_NAME: $(NC)$(BONUS_NAME)"
 	@echo "$(BY)\nCompiler:$(NC)"
 	@echo "$(BB)CC: $(NC)$(CC)"
@@ -216,9 +205,6 @@ info:
 	@echo "$(BB)SRC_DIR: $(NC)$(SRC_DIR)"
 	@echo "$(BB)INC_DIR: $(NC)$(INC_DIR)"
 	@echo "$(BB)OBJ_DIR: $(NC)$(OBJ_DIR)"
-	@echo "$(BB)LIB_DIR: $(NC)$(LIB_DIR)"
-	@echo "$(BB)LIBFT_DIR: $(NC)$(LIBFT_DIR)"
-	@echo "$(BB)LIBFT_INC_DIR: $(NC)$(LIBFT_INC_DIR)"
 	@echo "$(BY)\nFiles:$(NC)"
 	@echo "$(BB)NAME: $(NC)$(NAME)"
 	@echo "$(BB)SRC_FILES: $(NC)$(SRC_FILES)"

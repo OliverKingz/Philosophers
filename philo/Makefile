@@ -6,7 +6,7 @@
 #    By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 01:21:27 by ozamora-          #+#    #+#              #
-#    Updated: 2025/04/08 18:13:05 by ozamora-         ###   ########.fr        #
+#    Updated: 2025/04/22 15:10:24 by ozamora-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME		:= philo
 
 # **************************************************************************** #
 # FILES
-SRC_FILES	:= main
+SRC_FILES	:= main utils
 INC_FILES	:= philosophers
 
 # GENERAL FILES

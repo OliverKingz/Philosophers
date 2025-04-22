@@ -1,22 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/22 16:56:53 by ozamora-         ###   ########.fr       */
+/*   Created: 2025/04/15 11:45:55 by ozamora-          #+#    #+#             */
+/*   Updated: 2025/04/22 16:56:58 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-
-int	main(int argc, char **argv)
-{
-	if (argc <= 5)
-		printf("%s\n%s\n", USAGE, EXAMPLE);
-	(void)argv;
-	usleep(500000);
-	return (0);
-}

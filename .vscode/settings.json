@@ -1,6 +1,86 @@
 {
+    // Editor Settings
+    "editor.autoClosingOvertype": "never", // Disable overtype when auto-closing brackets, quotes, etc.
+    "editor.autoClosingDelete": "never", // Disable auto-deletion of closing brackets, quotes, etc.
+    "editor.autoClosingQuotes": "never", // Disable auto-closing of quotes
+    "editor.autoClosingBrackets": "never", // Disable auto-closing of brackets
+    "editor.autoClosingComments": "never", // Disable auto-closing of comments
+    "editor.renderWhitespace": "all", // Show all whitespace characters in the editor
+	"editor.insertSpaces": false, // Use tabs instead of spaces
+    "editor.minimap.enabled": false, // Disable the minimap on the side of the editor
+    "editor.detectIndentation": false, // Disable auto-detection of indentation style
+
+    // Git Settings
+    "git.enableSmartCommit": true, // Allow committing without staging (on save)
+    "git.confirmSync": false, // Disable confirmation prompts for Git sync
+    "git.autofetch": true, // Automatically fetch Git repositories
+    "git.openRepositoryInParentFolders": "never", // Prevent Git from automatically opening repositories in parent folders
+
+    // Editor Settings
+
+    // GitHub Copilot Settings
+    "github.copilot.enable": { // Enable or disable GitHub Copilot for specific file types
+        "*": true, // Enable Copilot for all file types
+        "plaintext": true, // Disable Copilot for plaintext files
+        "markdown": true, // Disable Copilot for markdown files
+        "scminput": false, // Disable Copilot for source control input
+        "c": false // Disable Copilot for C files
+    },
+
+    // File Management
+    "files.autoSave": "onFocusChange", // Auto-save files when the editor loses focus
+
+    // CMake Settings
+    "cmake.pinnedCommands": [ // List of pinned commands for CMake
+        "workbench.action.tasks.configureTaskRunner", // Configure task runner
+        "workbench.action.tasks.runTask" // Run task
+    ],
+
+    // 42 Header Configuration
+    "42header.email": "ozamora-@student.42madrid.com", // 42 School email for headers
+    "42header.username": "ozamora-", // 42 username for headers
+
+    // C Language Specific Settings
+    "[c]": {
+        "editor.defaultFormatter": "keyhr.42-c-format", // Use 42 C-Format as the default formatter for C files
+        "editor.rulers": [81]// Set a ruler at column 81
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "keyhr.42-c-format" // Use 42 C-Format as the default formatter for C++ files
+    },
+
+    // Terminal Settings
+    "terminal.integrated.suggest.enabled": true, // Enable suggestions in the integrated terminal
+
+    // Window Settings
+    "window.autoDetectColorScheme": true, // Automatically detect and apply the system's color scheme
+
+    // Workbench Icon Theme
+    "workbench.iconTheme": "vs-minimal", // Set the icon theme to "vs-minimal"
+    "workbench.preferredDarkColorTheme": "Allure Contrast (rainglow)", // Set the preferred dark color theme
+
+    // Workspace Trust Settings
+    // Determines how untrusted files are handled in the workspace
+    "security.workspace.trust.untrustedFiles": "open", // Prevent Git from automatically opening repositories in parent folders
+
+    // Theme and UI Preferences
+    "workbench.colorTheme": "Allure Contrast (rainglow)", // Set the color theme to Visual Studio Dark (C++ theme)
+    "workbench.sideBar.location": "left", // Set the sidebar to be on the left side
+
+    // Explorer Settings
+    "explorer.confirmDragAndDrop": false, // Disable confirmation prompts for drag-and-drop in Explorer
+    "explorer.confirmDelete": false, // Disable confirmation prompts for deleting files in Explorer
+
+    // TypeScript React Specific Settings
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode" // Use Prettier as the default formatter for TypeScript React files
+    },
+
+    // Settings Sync
+    "settingsSync.ignoredExtensions": [ // List of extensions to ignore during settings sync
+	],
 	"files.associations": {
-		"philosophers.h": "c",
-		"pthread.h": "c"
+		"unistd.h": "c",
+		"philosophers.h": "c"
 	}
 }

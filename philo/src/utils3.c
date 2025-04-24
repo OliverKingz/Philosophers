@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/24 15:38:02 by ozamora-         ###   ########.fr       */
+/*   Created: 2025/04/24 16:03:09 by ozamora-          #+#    #+#             */
+/*   Updated: 2025/04/24 16:04:18 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+int	ft_isspace(int c)
 {
-	if (argc <= 5)
-		printf("%s\n%s\n", USAGE, EXAMPLE);
-	(void)argv;
-	usleep(500000);
-	return (0);
+	return (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v');
 }
 
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}

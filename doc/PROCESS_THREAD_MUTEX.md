@@ -14,7 +14,7 @@ A **process** is an instance of a program in execution. It is the fundamental un
 
 #### **Common Process Operations:**
 
-- **Creation**: Processes are created using system calls like `fork()` or higher-level APIs.
+- **Creation**: Processes are created using system calls like `fork()`, `exec()` or higher-level APIs.
 - **Inter-Process Communication (IPC)**: Processes communicate using mechanisms like pipes, shared memory, or message queues.
 - **Termination**: Processes terminate when they complete execution or are explicitly killed.
 

@@ -2,22 +2,22 @@
 
 The following functions are allowed to be used in the philosophers project:
 
-- memset: to set memory with a constant byte
-- printf: to print formatted output
-- malloc: to allocate memory dynamically
-- free: to deallocate memory
-- write: to write data to a file descriptor
+- **memset**: to set memory with a constant byte
+- **printf**: to print formatted output
+- **malloc**: to allocate memory dynamically
+- **free**: to deallocate memory
+- **write**: to write data to a file descriptor
 
-- usleep: to suspend execution for microsecond intervals
-- gettimeofday: to get the current time
+- **usleep**: to suspend execution for microsecond intervals
+- **gettimeofday**: to get the current time
 
-- pthread_create: to create a new thread
-- pthread_detach: to detach a thread
-- pthread_join: to join with a terminated thread
-- pthread_mutex_init: to initialize a mutex
-- pthread_mutex_destroy: to destroy a mutex
-- pthread_mutex_lock: to lock a mutex
-- pthread_mutex_unlock: to unlock a mutex
+- **pthread_create**: to create a new thread
+- **pthread_detach**: to detach a thread
+- **pthread_join**: to join with a terminated thread
+- **pthread_mutex_init**: to initialize a mutex
+- **pthread_mutex_destroy**: to destroy a mutex
+- **pthread_mutex_lock**: to lock a mutex
+- **pthread_mutex_unlock**: to unlock a mutex
 
 ```c
 # include <string.h>	// To use memset
@@ -247,5 +247,45 @@ int	main(int argc, char *argv[])
 	free(tinfo);
 	exit(EXIT_SUCCESS);
 }
-´´´
 ```
+
+# Example for POSIX Thread Create and Join functions
+
+```c
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void	*thread(void *arg)
+{
+	char	*ret;
+
+	printf("thread() entered with argument '%s'\n", (char *)arg);
+	if ((ret = (char *)malloc(20)) == NULL)
+	{
+		perror("malloc() error");
+		exit(2);
+	}
+	strcpy(ret, "This is a test");
+	pthread_exit(ret);
+}
+
+int	main(void)
+{
+	pthread_t	thid;
+	void		*ret;
+
+	if (pthread_create(&thid, NULL, thread, "thread 1") != 0)
+	{
+		perror("pthread_create() error");
+		exit(1);
+	}
+	if (pthread_join(thid, &ret) != 0)
+	{
+		perror("pthread_create() error");
+		exit(3);
+	}
+	printf("thread exited with '%s'\n", (char *)ret);
+}
+```
+

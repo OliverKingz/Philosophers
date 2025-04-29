@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:45:55 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/24 16:13:10 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:29:42 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	my_is_unsigned_nbr(const char *str)
 		str++;
 	if (*str == '+' || *str == '-')
 	{
-		if (*str == '+' || *str == '-')
+		if (*str == '+')
 			str++;
-		if (*str == '+' || *str == '-')
+		if (*str == '-')
 			return (FALSE);
 	}
 	if (*str == '\0')
@@ -47,8 +47,6 @@ unsigned int	my_atoui(const char *str)
 
 	result = 0;
 	i = 0;
-	if (!my_is_unsigned_nbr(str))
-		return 0;
 	while (ft_isspace(*str))
 		str++;
 	if (str[i] == '+')

@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/24 15:49:55 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:50:18 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@
 						// pthread_mutex_lock, pthread_mutex_unlock
 # include <limits.h>
 
+#ifndef MAX_PHILO
+# define MAX_PHILO 200
+#endif
+
 # define USAGE "Usage:\t ./philo \
 	<number_of_philos> <time_to_die> <time_to_eat> <time_to_sleep> \
 	[<number_of_times_each_philosopher_must_eat>]"
 # define EXAMPLE "Example: ./philo 3 400 200 200"
+
+# define ERR_INPUT "Error: input"
 
 # define SEC_TO_USEC 1000000
 # define MSEC_TO_USEC 1000
@@ -36,11 +42,15 @@
 
 typedef struct s_admin
 {
+	struct timeval	start;
+	struct timeval	end;
+	unsigned long	elapsed;
 	unsigned int	num_philo;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	num_eat;
+	pthread_t		*admin_thread;
 	pthread_t		*philo_thread;
 	pthread_mutex_t	*fork;
 	int				sim_active;

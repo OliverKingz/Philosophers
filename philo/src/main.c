@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/28 17:03:19 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:48:50 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_admin(int argc, char **argv, t_admin *data)
 {
-	gettimeofday(&data->start, NULL);
+	gettimeofday(&data->t_start, NULL);
 	if (!my_is_unsigned_nbr(argv[1]) || !my_is_unsigned_nbr(argv[2])
 		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
 		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
@@ -27,7 +27,7 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	if (argc == 6)
 		data->num_eat = my_atoui(argv[5]);
 	data->philo_thread = malloc(data->num_philo * sizeof(pthread_t *));
-	data->fork = malloc(data->num_philo * sizeof(pthread_mutex_t *));
+	data->forks = malloc(data->num_philo * sizeof(pthread_mutex_t *));
 	data->sim_active = TRUE;
 	pthread_create(data->admin_thread, NULL, admin_routine, data);
 	return (TRUE);
@@ -35,10 +35,10 @@ int	init_admin(int argc, char **argv, t_admin *data)
 
 unsigned long	calc_elapsed_time(t_admin *data)
 {
-	gettimeofday(&data->end, NULL);
-	data->elapsed = (data->end.tv_sec - data->start.tv_sec) * SEC_TO_USEC
-		+ (data->end.tv_usec - data->start.tv_usec);
-	return (data->elapsed);
+	gettimeofday(&data->t_end, NULL);
+	data->t_elapsed = (data->t_end.tv_sec - data->t_start.tv_sec) * SEC_TO_USEC
+		+ (data->t_end.tv_usec - data->t_start.tv_usec);
+	return (data->t_elapsed);
 }
 
 void	*admin_routine(void *arg)

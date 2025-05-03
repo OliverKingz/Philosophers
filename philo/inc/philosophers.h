@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/28 16:50:18 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/03 22:49:12 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,29 @@
 # define TRUE 1
 # define FALSE 0
 
+typedef struct s_philo
+{
+	int				id;
+	unsigned int	num_eat;
+	pthread_t		thread_id;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	unsigned long	t_last_meal;
+}					t_philo;
+
 typedef struct s_admin
 {
-	struct timeval	start;
-	struct timeval	end;
-	unsigned long	elapsed;
+	struct timeval	t_start;
+	struct timeval	t_end;
+	unsigned long	t_elapsed;
 	unsigned int	num_philo;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	num_eat;
 	pthread_t		*admin_thread;
-	pthread_t		*philo_thread;
-	pthread_mutex_t	*fork;
+	struct t_philo	*philo_thread;
+	pthread_mutex_t	*forks;
 	int				sim_active;
 }					t_admin;
 

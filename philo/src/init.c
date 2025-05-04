@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:14:25 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:24:26 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	init_philos(t_admin *data)
 		data->philos[i].r_fork = &data->forks[(i + 1) % data->num_philo];
 		data->philos[i].lastmeal_time = data->start_time;
 		data->philos[i].meals_eaten = 0;
+		data->philos[i].admin = data;
 		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);
 		i++;
 	}

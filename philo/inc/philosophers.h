@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:16:33 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:42:50 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define EXAMPLE "Example: ./philo 3 400 200 200"
 
 # define MAX_PHILO 200
-# define MIN_WAIT 50
+# define MIN_WAIT 1000
 
 # define ERR_INPUT "Error: input"
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	unsigned long	lastmeal_time;
 	pthread_mutex_t	meal_mutex;
 	int				meals_eaten;
+	struct s_admin	*admin;
 }					t_philo;
 
 typedef struct s_admin
@@ -73,6 +74,8 @@ int					init_philos(t_admin *data);
 void				clean_and_destroy(t_admin *data);
 
 unsigned long		get_current_time(t_admin *data);
+
+int					simulation_active(t_admin *data);
 
 void				*admin_routine(void *arg);
 void				*philo_routine(void *arg);

@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 19:53:46 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:40:57 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,52 @@ void	*admin_routine(void *arg)
 {
 	t_admin	*data;
 
-	data = (t_admin *)arg;
+	data = (t_admin *)arg;		
+	while (1)
+	{
+		if (!simulation_active(data))
+			break ;
+		usleep(1 * MSEC_TO_USEC);
+	}
 	return (NULL);
 }
 
 void	*philo_routine(void *arg)
 {
+	t_philo	*philo;
 	t_admin	*data;
 
-	data = (t_admin *)arg;
+	philo = (t_philo *)arg;
+	data = philo->admin;
 	while (1)
 	{
-		pthread_mutex_lock(&data->sim_mutex);
-		if (!data->sim_active)
+		if (!simulation_active(data))
 			break ;
-		pthread_mutex_unlock(&data->sim_mutex);
-		if (data->philos->id % 2 == 1)
-			(pthread_mutex_lock(data->philos->l_fork),
-				pthread_mutex_lock(data->philos->r_fork));
+
+		// Philosopher tries to pick up forks
+		if (philo->id % 2 == 1)
+			(pthread_mutex_lock(philo->l_fork),
+				pthread_mutex_lock(philo->r_fork));
 		else
 			usleep(MIN_WAIT);
+
+		// Philosopher eats
+		pthread_mutex_lock(&philo->meal_mutex);
+		philo->lastmeal_time = get_current_time(data);
+		philo->meals_eaten++;
+		pthread_mutex_unlock(&philo->meal_mutex);
+
+		usleep(data->time_to_eat * MSEC_TO_USEC);
+
+		// Philosophers puts down forks
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
+
+		// Philosopher sleeps
+		usleep(data->time_to_sleep * MSEC_TO_USEC);
+
+		// Philosopher thinks (delay)
+		usleep(MIN_WAIT);
 	}
 	return (NULL);
 }

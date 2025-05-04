@@ -6,7 +6,7 @@
 #    By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 01:21:27 by ozamora-          #+#    #+#              #
-#    Updated: 2025/05/04 22:33:52 by ozamora-         ###   ########.fr        #
+#    Updated: 2025/05/04 23:08:51 by ozamora-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME		:= philo
 
 # **************************************************************************** #
 # FILES
-SRC_FILES	:= init log main routine time utils utils2 utils3
+SRC_FILES	:= init log main routine_admin routine_philo time utils utils2 utils3
 INC_FILES	:= philosophers
 
 # GENERAL FILES

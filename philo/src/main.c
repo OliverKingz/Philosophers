@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 22:58:18 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:04:06 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,30 @@
 void	*admin_routine(void *arg)
 {
 	t_admin	*data;
+	int		i;
 
-	data = (t_admin *)arg;		
+	data = (t_admin *)arg;
 	while (1)
 	{
 		if (!simulation_active(data))
 			break ;
 		usleep(10 * MSEC_TO_USEC);
+		i = 0;
+		while (i < (int)data->num_philo)
+		{
+			pthread_mutex_lock(&data->philos[i].meal_mutex);
+			if ((get_current_time_usec() - data->philos[i].lastmeal_time) > (data->philos[i].meals_eaten * data->time_to_die))
+			{
+				pthread_mutex_lock(&data->sim_mutex);
+				data->sim_active = 0;
+				pthread_mutex_unlock(&data->sim_mutex);
+				print_log(data, &data->philos[i], MSG_DEAD);
+				pthread_mutex_unlock(&data->philos[i].meal_mutex);
+				return (NULL);
+			}
+			pthread_mutex_unlock(&data->philos[i].meal_mutex);
+			i++;
+		}
 	}
 	return (NULL);
 }
@@ -33,10 +50,8 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->admin;
-	while (1)
+	while (!simulation_active(data))
 	{
-		if (!simulation_active(data))
-			break ;
 		philo_takes_forks(philo);
 		philo_eats(philo);
 		philo_leaves_forks(philo);

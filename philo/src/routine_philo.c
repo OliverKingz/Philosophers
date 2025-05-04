@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:22:08 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 23:02:43 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:59:24 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	philo_eats(t_philo *philo)
 
 	data = philo->admin;
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->lastmeal_time = get_elapsed_time_usec(data);
+	philo->lastmeal_time = get_current_time_usec();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_log(data, philo, MSG_EAT);

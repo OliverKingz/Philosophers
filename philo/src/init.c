@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 22:36:08 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:00:04 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 int	init_admin(int argc, char **argv, t_admin *data)
 {
-	struct timeval	start_time;
 	int	i;
 
 	memset(data, '\0', sizeof(t_admin));
 	if (!arg_to_admin(argc, argv, data))
 		return (FALSE);
 	data->sim_active = TRUE;
-	if (gettimeofday(&start_time, NULL) != 0)
-		return (FALSE);
-	data->start_time = start_time.tv_sec * SEC_TO_USEC + start_time.tv_usec;
+	data->start_time = get_current_time_usec();
 	data->forks = malloc(data->num_philo * sizeof(pthread_mutex_t));
 	if (!data->forks)
 		return (FALSE);
@@ -44,13 +41,13 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
 		return (FALSE);
 	data->num_philo = my_atoui(argv[1]);
-	data->time_to_die = my_atoui(argv[2]);
-	data->time_to_eat = my_atoui(argv[3]);
-	data->time_to_sleep = my_atoui(argv[4]);
+	data->time_to_die = my_atoui(argv[2]) * MSEC_TO_USEC;
+	data->time_to_eat = my_atoui(argv[3]) * MSEC_TO_USEC;
+	data->time_to_sleep = my_atoui(argv[4]) * MSEC_TO_USEC;
 	data->num_eat = UINT_MAX;
 	if (argc == 6)
 		data->num_eat = my_atoui(argv[5]);
-	if (data->num_philo > MAX_PHILO)
+	if ((data->num_philo < 2) || (data->num_philo > MAX_PHILO))
 		return (FALSE);
 	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
 		return (FALSE);
@@ -70,7 +67,7 @@ int	init_philos(t_admin *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[(i + 1) % data->num_philo];
-		data->philos[i].lastmeal_time = data->start_time;
+		data->philos[i].lastmeal_time = 0;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].admin = data;
 		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);

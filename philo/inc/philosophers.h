@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 23:02:51 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:03:14 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ typedef struct s_philo
 typedef struct s_admin
 {
 	unsigned int	num_philo;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
 	unsigned int	num_eat;
+	unsigned long	start_time;
 	pthread_t		admin_thread;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	sim_mutex;
 	pthread_mutex_t	print_mutex;
 	int				sim_active;
-	unsigned long	start_time;
 }					t_admin;
 
 int					init_admin(int argc, char **argv, t_admin *data);
@@ -87,6 +87,7 @@ int					arg_to_admin(int argc, char **argv, t_admin *data);
 void				clean_and_destroy(t_admin *data);
 
 unsigned long		get_elapsed_time_usec(t_admin *data);
+unsigned long		get_current_time_usec(void);
 
 int					simulation_active(t_admin *data);
 

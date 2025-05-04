@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:03:14 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:25:13 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@
 # define MAGENTA "\033[1;35m"
 # define CYAN "\033[1;36m"
 
-# define ERR_INPUT "Error: input"
+# define ERR_INPUT "Error: Invalid input"
 
 # define SEC_TO_USEC 1000000
+# define SEC_TO_MSEC 1000
 # define MSEC_TO_USEC 1000
 
 # define TRUE 1
@@ -56,44 +57,44 @@
 typedef struct s_philo
 {
 	int				id;
-	pthread_t		philo_thread;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
+	pthread_t		thread;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	unsigned long	lastmeal_time;
-	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	meal_lock;
 	int				meals_eaten;
 	struct s_admin	*admin;
 }					t_philo;
 
 typedef struct s_admin
 {
-	unsigned int	num_philo;
+	unsigned int	philo_count;
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
-	unsigned int	num_eat;
+	unsigned int	min_meals;
 	unsigned long	start_time;
 	pthread_t		admin_thread;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	sim_mutex;
-	pthread_mutex_t	print_mutex;
-	int				sim_active;
+	pthread_mutex_t	sim_lock;
+	pthread_mutex_t	print_lock;
+	int				running;
 }					t_admin;
 
 int					init_admin(int argc, char **argv, t_admin *data);
-int					init_philos(t_admin *data);
+int					setup_philos(t_admin *data);
 int					arg_to_admin(int argc, char **argv, t_admin *data);
 void				clean_and_destroy(t_admin *data);
 
-unsigned long		get_elapsed_time_usec(t_admin *data);
-unsigned long		get_current_time_usec(void);
+unsigned long		get_elapsed_time_ms(t_admin *data);
+unsigned long		get_current_time_ms(void);
 
-int					simulation_active(t_admin *data);
+int					simulation_running(t_admin *data);
 
-void				philo_takes_forks(t_philo *philo);
+void				philo_take_forks(t_philo *philo);
 void				philo_eats(t_philo *philo);
-void				philo_leaves_forks(t_philo *philo);
+void				philo_release_forks(t_philo *philo);
 void				philo_sleeps(t_philo *philo);
 void				philo_thinks(t_philo *philo);
 

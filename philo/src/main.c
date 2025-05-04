@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:04:06 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:28:24 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ void	*admin_routine(void *arg)
 	int		i;
 
 	data = (t_admin *)arg;
-	while (1)
+	while (TRUE)
 	{
-		if (!simulation_active(data))
+		usleep(1 * MSEC_TO_USEC);
+		if (!simulation_running(data))
 			break ;
-		usleep(10 * MSEC_TO_USEC);
 		i = 0;
-		while (i < (int)data->num_philo)
+		while (i < (int)data->philo_count)
 		{
-			pthread_mutex_lock(&data->philos[i].meal_mutex);
-			if ((get_current_time_usec() - data->philos[i].lastmeal_time) > (data->philos[i].meals_eaten * data->time_to_die))
+			pthread_mutex_lock(&data->philos[i].meal_lock);
+			if (get_current_time_ms() - data->philos[i].lastmeal_time > data->time_to_die)
 			{
-				pthread_mutex_lock(&data->sim_mutex);
-				data->sim_active = 0;
-				pthread_mutex_unlock(&data->sim_mutex);
+				pthread_mutex_lock(&data->sim_lock);
+				data->running = 0;
+				pthread_mutex_unlock(&data->sim_lock);
 				print_log(data, &data->philos[i], MSG_DEAD);
-				pthread_mutex_unlock(&data->philos[i].meal_mutex);
+				pthread_mutex_unlock(&data->philos[i].meal_lock);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&data->philos[i].meal_mutex);
+			pthread_mutex_unlock(&data->philos[i].meal_lock);
 			i++;
 		}
 	}
@@ -50,11 +50,13 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->admin;
-	while (!simulation_active(data))
+	while (TRUE)
 	{
-		philo_takes_forks(philo);
+		if (!simulation_running(data))
+			break ;
+		philo_take_forks(philo);
 		philo_eats(philo);
-		philo_leaves_forks(philo);
+		philo_release_forks(philo);
 		philo_sleeps(philo);
 		philo_thinks(philo);
 	}
@@ -71,9 +73,9 @@ int	main(int argc, char **argv)
 	if (init_admin(argc, argv, &data) == FALSE)
 		return (printf("%s\n", ERR_INPUT), EXIT_FAILURE);
 	i = 0;
-	while (i < data.num_philo)
+	while (i < data.philo_count)
 	{
-		pthread_create(&data.philos[i].philo_thread, NULL, philo_routine,
+		pthread_create(&data.philos[i].thread, NULL, philo_routine,
 			&data.philos[i]);
 		i++;
 	}

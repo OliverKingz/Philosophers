@@ -6,25 +6,28 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:22:08 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 00:59:24 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:44:59 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	philo_takes_forks(t_philo *philo)
+void	philo_take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 1)
 	{
-		pthread_mutex_lock(philo->l_fork);
-		pthread_mutex_lock(philo->r_fork);
+		pthread_mutex_lock(philo->left_fork);
+		print_log(philo->admin, philo, MSG_FORK);
+		pthread_mutex_lock(philo->right_fork);
+		print_log(philo->admin, philo, MSG_FORK);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->r_fork);
-		pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(philo->right_fork);
+		print_log(philo->admin, philo, MSG_FORK);
+		pthread_mutex_lock(philo->left_fork);
+		print_log(philo->admin, philo, MSG_FORK);
 	}
-	print_log(philo->admin, philo, MSG_FORK);
 }
 
 void	philo_eats(t_philo *philo)
@@ -32,18 +35,18 @@ void	philo_eats(t_philo *philo)
 	t_admin	*data;
 
 	data = philo->admin;
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->lastmeal_time = get_current_time_usec();
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->lastmeal_time = get_current_time_ms();
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	pthread_mutex_unlock(&philo->meal_lock);
 	print_log(data, philo, MSG_EAT);
 	usleep(data->time_to_eat * MSEC_TO_USEC);
 }
 
-void	philo_leaves_forks(t_philo *philo)
+void	philo_release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 void	philo_sleeps(t_philo *philo)

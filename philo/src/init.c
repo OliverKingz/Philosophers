@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:00:04 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:29:45 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	memset(data, '\0', sizeof(t_admin));
 	if (!arg_to_admin(argc, argv, data))
 		return (FALSE);
-	data->sim_active = TRUE;
-	data->start_time = get_current_time_usec();
-	data->forks = malloc(data->num_philo * sizeof(pthread_mutex_t));
+	data->running = TRUE;
+	data->start_time = get_current_time_ms();
+	data->forks = malloc(data->philo_count * sizeof(pthread_mutex_t));
 	if (!data->forks)
 		return (FALSE);
 	i = -1;
-	while (++i < (int)data->num_philo)
+	while (++i < (int)data->philo_count)
 		pthread_mutex_init(&data->forks[i], NULL);
-	pthread_mutex_init(&data->sim_mutex, NULL);
-	pthread_mutex_init(&data->print_mutex, NULL);
-	if (!init_philos(data))
+	pthread_mutex_init(&data->sim_lock, NULL);
+	pthread_mutex_init(&data->print_lock, NULL);
+	if (!setup_philos(data))
 		return (clean_and_destroy(data), (FALSE));
 	return (TRUE);
 }
@@ -40,37 +40,37 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
 		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
 		return (FALSE);
-	data->num_philo = my_atoui(argv[1]);
-	data->time_to_die = my_atoui(argv[2]) * MSEC_TO_USEC;
-	data->time_to_eat = my_atoui(argv[3]) * MSEC_TO_USEC;
-	data->time_to_sleep = my_atoui(argv[4]) * MSEC_TO_USEC;
-	data->num_eat = UINT_MAX;
+	data->philo_count = my_atoui(argv[1]);
+	data->time_to_die = my_atoui(argv[2]);
+	data->time_to_eat = my_atoui(argv[3]);
+	data->time_to_sleep = my_atoui(argv[4]);
+	data->min_meals = UINT_MAX;
 	if (argc == 6)
-		data->num_eat = my_atoui(argv[5]);
-	if ((data->num_philo < 2) || (data->num_philo > MAX_PHILO))
+		data->min_meals = my_atoui(argv[5]);
+	if ((data->philo_count < 2) || (data->philo_count > MAX_PHILO))
 		return (FALSE);
 	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
 		return (FALSE);
 	return (TRUE);
 }
 
-int	init_philos(t_admin *data)
+int	setup_philos(t_admin *data)
 {
 	int i;
 
-	data->philos = malloc(data->num_philo * sizeof(t_philo));
+	data->philos = malloc(data->philo_count * sizeof(t_philo));
 	if (!data->philos)
 		return (FALSE);
 	i = 0;
-	while (i < (int)data->num_philo)
+	while (i < (int)data->philo_count)
 	{
 		data->philos[i].id = i + 1;
-		data->philos[i].l_fork = &data->forks[i];
-		data->philos[i].r_fork = &data->forks[(i + 1) % data->num_philo];
-		data->philos[i].lastmeal_time = 0;
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1) % data->philo_count];
+		data->philos[i].lastmeal_time = data->start_time;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].admin = data;
-		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);
+		pthread_mutex_init(&data->philos[i].meal_lock, NULL);
 		i++;
 	}
 	return (TRUE);
@@ -85,21 +85,21 @@ void	clean_and_destroy(t_admin *data)
 	if (data->forks)
 	{
 		i = -1;
-		while (++i < (int)data->num_philo)
+		while (++i < (int)data->philo_count)
 			pthread_mutex_destroy(&data->forks[i]);
 		(free(data->forks), data->forks = NULL);
 	}
 	if (data->philos)
 	{
 		i = -1;
-		while (++i < (int)data->num_philo)
+		while (++i < (int)data->philo_count)
 		{
-			pthread_mutex_destroy(&data->philos[i].meal_mutex);
-			data->philos[i].l_fork = NULL;
-			data->philos[i].r_fork = NULL;
+			pthread_mutex_destroy(&data->philos[i].meal_lock);
+			data->philos[i].left_fork = NULL;
+			data->philos[i].right_fork = NULL;
 		}
 		(free(data->philos), data->philos = NULL);
 	}
-	pthread_mutex_destroy(&data->sim_mutex);
-	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->sim_lock);
+	pthread_mutex_destroy(&data->print_lock);
 }

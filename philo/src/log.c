@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:07:28 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 00:51:44 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:51:38 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,15 @@ const char	*assign_color(int id)
 	return (colors[id % 6]);
 }
 
-// [timestamp] Philosopher X action
+// [<timestamp>ms] Philosopher X action
+// <timestamp> X action
 void print_log(t_admin *data, t_philo *philo, const char *msg)
 {
-	unsigned long time;
-
-	pthread_mutex_lock(&data->print_mutex);
-	time = get_elapsed_time_usec(data) / MSEC_TO_USEC;
-	printf("%s[%lums] Philosopher %d %s\033[0m\n",
+	pthread_mutex_lock(&data->print_lock);
+	printf("%s%lu %d %s\033[0m\n",
 			assign_color(philo->id),
-			time,
+			get_elapsed_time_ms(data),
 			philo->id,
 			msg);
-	pthread_mutex_unlock(&philo->admin->print_mutex);
+	pthread_mutex_unlock(&philo->admin->print_lock);
 }

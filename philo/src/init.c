@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:24:26 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:49:26 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,8 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	int	i;
 
 	memset(data, '\0', sizeof(t_admin));
-	if (!my_is_unsigned_nbr(argv[1]) || !my_is_unsigned_nbr(argv[2])
-		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
-		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
+	if (!arg_to_admin(argc, argv, data))
 		return (FALSE);
-	data->num_philo = my_atoui(argv[1]);
-	data->time_to_die = my_atoui(argv[2]);
-	data->time_to_eat = my_atoui(argv[3]);
-	data->time_to_sleep = my_atoui(argv[4]);
-	data->num_eat = UINT_MAX;
-	if (argc == 6)
-		data->num_eat = my_atoui(argv[5]);
 	data->sim_active = TRUE;
 	if (gettimeofday(&start_time, NULL) != 0)
 		return (FALSE);
@@ -43,6 +34,26 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	pthread_mutex_init(&data->print_mutex, NULL);
 	if (!init_philos(data))
 		return (clean_and_destroy(data), (FALSE));
+	return (TRUE);
+}
+
+int	arg_to_admin(int argc, char **argv, t_admin *data)
+{
+	if (!my_is_unsigned_nbr(argv[1]) || !my_is_unsigned_nbr(argv[2])
+		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
+		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
+		return (FALSE);
+	data->num_philo = my_atoui(argv[1]);
+	data->time_to_die = my_atoui(argv[2]);
+	data->time_to_eat = my_atoui(argv[3]);
+	data->time_to_sleep = my_atoui(argv[4]);
+	data->num_eat = UINT_MAX;
+	if (argc == 6)
+		data->num_eat = my_atoui(argv[5]);
+	if (data->num_philo > MAX_PHILO)
+		return (FALSE);
+	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
+		return (FALSE);
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:49:26 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:36:08 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	if (!data->forks)
 		return (FALSE);
 	i = -1;
-	while (++i < data->num_philo)
+	while (++i < (int)data->num_philo)
 		pthread_mutex_init(&data->forks[i], NULL);
 	pthread_mutex_init(&data->sim_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
@@ -65,7 +65,7 @@ int	init_philos(t_admin *data)
 	if (!data->philos)
 		return (FALSE);
 	i = 0;
-	while (i < data->num_philo)
+	while (i < (int)data->num_philo)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].l_fork = &data->forks[i];
@@ -88,14 +88,14 @@ void	clean_and_destroy(t_admin *data)
 	if (data->forks)
 	{
 		i = -1;
-		while (++i < data->num_philo)
+		while (++i < (int)data->num_philo)
 			pthread_mutex_destroy(&data->forks[i]);
 		(free(data->forks), data->forks = NULL);
 	}
 	if (data->philos)
 	{
 		i = -1;
-		while (++i < data->num_philo)
+		while (++i < (int)data->num_philo)
 		{
 			pthread_mutex_destroy(&data->philos[i].meal_mutex);
 			data->philos[i].l_fork = NULL;

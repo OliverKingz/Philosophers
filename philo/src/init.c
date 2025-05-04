@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/03 23:36:12 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:14:25 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int	init_admin(int argc, char **argv, t_admin *data)
 {
 	struct timeval	start_time;
-	unsigned int	i;
+	int	i;
 
+	memset(data, '\0', sizeof(t_admin));
 	if (!my_is_unsigned_nbr(argv[1]) || !my_is_unsigned_nbr(argv[2])
 		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
 		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
@@ -41,16 +42,19 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	pthread_mutex_init(&data->sim_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	if (!init_philos(data))
-		return (free(data->forks), (FALSE));
+		return (clean_and_destroy(data), (FALSE));
 	return (TRUE);
 }
 
 int	init_philos(t_admin *data)
 {
+	int i;
+
 	data->philos = malloc(data->num_philo * sizeof(t_philo));
 	if (!data->philos)
 		return (FALSE);
-	for (unsigned int i = 0; i < data->num_philo; i++)
+	i = 0;
+	while (i < data->num_philo)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].l_fork = &data->forks[i];
@@ -58,6 +62,35 @@ int	init_philos(t_admin *data)
 		data->philos[i].lastmeal_time = data->start_time;
 		data->philos[i].meals_eaten = 0;
 		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);
+		i++;
 	}
 	return (TRUE);
+}
+
+void	clean_and_destroy(t_admin *data)
+{
+	int i;
+
+	if (!data)
+		return ;
+	if (data->forks)
+	{
+		i = -1;
+		while (++i < data->num_philo)
+			pthread_mutex_destroy(&data->forks[i]);
+		(free(data->forks), data->forks = NULL);
+	}
+	if (data->philos)
+	{
+		i = -1;
+		while (++i < data->num_philo)
+		{
+			pthread_mutex_destroy(&data->philos[i].meal_mutex);
+			data->philos[i].l_fork = NULL;
+			data->philos[i].r_fork = NULL;
+		}
+		(free(data->philos), data->philos = NULL);
+	}
+	pthread_mutex_destroy(&data->sim_mutex);
+	pthread_mutex_destroy(&data->print_mutex);
 }

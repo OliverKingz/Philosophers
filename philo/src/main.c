@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/03 23:40:21 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:53:46 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	*admin_routine(void *arg)
 	t_admin	*data;
 
 	data = (t_admin *)arg;
+	return (NULL);
 }
 
 void	*philo_routine(void *arg)
@@ -24,6 +25,19 @@ void	*philo_routine(void *arg)
 	t_admin	*data;
 
 	data = (t_admin *)arg;
+	while (1)
+	{
+		pthread_mutex_lock(&data->sim_mutex);
+		if (!data->sim_active)
+			break ;
+		pthread_mutex_unlock(&data->sim_mutex);
+		if (data->philos->id % 2 == 1)
+			(pthread_mutex_lock(data->philos->l_fork),
+				pthread_mutex_lock(data->philos->r_fork));
+		else
+			usleep(MIN_WAIT);
+	}
+	return (NULL);
 }
 
 int	main(int argc, char **argv)

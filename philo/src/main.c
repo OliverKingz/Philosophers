@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:21:15 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:34:46 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*admin_routine(void *arg)
 	data = (t_admin *)arg;
 	while (TRUE)
 	{
-		usleep(MIN_WAIT);
+		usleep(500);
 		if (!simulation_running(data))
 			break ;
 		philos_finished_eating = 0;

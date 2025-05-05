@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:27:16 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:30:32 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 	if (argc == 6)
 		data->min_meals = (int)my_atoui(argv[5]);
 	if (data->philo_count > MAX_PHILO)
-		return (FALSE);
-	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
 		return (FALSE);
 	return (TRUE);
 }

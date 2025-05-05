@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:25:25 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:46:14 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@
 						// pthread_mutex_lock, pthread_mutex_unlock
 # include <limits.h>
 
-# define USAGE                                                         \
-	"Usage:\t ./philo "                                               \
-	"<number_of_philos> <time_to_die> <time_to_eat> <time_to_sleep> " \
-	"[<number_of_times_each_philosopher_must_eat>]"
-# define EXAMPLE "Example: ./philo 3 400 200 200"
+# define USE1 "Usage:\t ./philo "
+# define USE2 "<number_of_philos> <time_to_die> <time_to_eat> <time_to_sleep> "
+# define USE3 "[<number_of_times_each_philosopher_must_eat>]\n"
+# define EXAMPLE "Example: ./philo 3 400 200 200\n"
 
 # define MAX_PHILO 200
 # define MIN_WAIT 1000
@@ -93,6 +92,10 @@ unsigned long		get_elapsed_time_ms(t_admin *data);
 unsigned long		get_current_time_ms(void);
 
 int					simulation_running(t_admin *data);
+void				stop_simulation(t_admin *data);
+int					check_philo_death(t_admin *data, t_philo *philo);
+int					check_philo_finish(t_admin *data, t_philo *philo,
+						int *philos_full);
 
 void				philo_take_forks(t_philo *philo);
 void				philo_eats(t_philo *philo);

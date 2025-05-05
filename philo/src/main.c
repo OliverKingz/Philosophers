@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 18:34:46 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:46:22 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,26 @@ void	*admin_routine(void *arg)
 {
 	t_admin	*data;
 	int		i;
-	int		philos_finished_eating;
+	int		philos_full;
 
 	data = (t_admin *)arg;
 	while (TRUE)
 	{
 		usleep(500);
-		if (!simulation_running(data))
-			break ;
-		philos_finished_eating = 0;
-		i = 0;
-		while (i < (int)data->philo_count)
+		philos_full = 0;
+		i = -1;
+		while (++i < (int)data->philo_count)
 		{
 			if (!simulation_running(data))
 				return (NULL);
 			pthread_mutex_lock(&data->philos[i].meal_lock);
-			if (get_current_time_ms() - data->philos[i].lastmeal_time > data->time_to_die)
-			{
-				pthread_mutex_lock(&data->sim_lock);
-				data->running = FALSE;
-				pthread_mutex_unlock(&data->sim_lock);
-				print_log(data, &data->philos[i], MSG_DEAD);
-				pthread_mutex_unlock(&data->philos[i].meal_lock);
+			if (check_philo_death(data, &data->philos[i]))
 				return (NULL);
-			}
-			if (data->philos[i].is_finished == FALSE)
-			{
-				if (data->min_meals != -1 && data->philos[i].meals_eaten >= data->min_meals)
-				{
-					philos_finished_eating++;
-					data->philos[i].is_finished = TRUE;
-					print_log(data, &data->philos[i], MSG_FINISH);
-				}
-			}
-			else
-				philos_finished_eating++;
+			check_philo_finish(data, &data->philos[i], &philos_full);
 			pthread_mutex_unlock(&data->philos[i].meal_lock);
-			i++;
 		}
-		if (data->min_meals != -1 && philos_finished_eating == (int)data->philo_count)
-		{
-			pthread_mutex_lock(&data->sim_lock);
-			data->running = FALSE;
-			pthread_mutex_unlock(&data->sim_lock);
-			break ;
-		}
+		if (data->min_meals != -1 && philos_full == (int)data->philo_count)
+			return (stop_simulation(data), NULL);
 	}
 	return (NULL);
 }
@@ -68,18 +43,16 @@ void	*admin_routine(void *arg)
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-	t_admin	*data;
 
 	philo = (t_philo *)arg;
-	data = philo->admin;
 	while (TRUE)
 	{
-		if (!simulation_running(data))
+		if (!simulation_running(philo->admin))
 			break ;
 		philo_take_forks(philo);
 		philo_eats(philo);
 		philo_release_forks(philo);
-		if (!simulation_running(data))
+		if (!simulation_running(philo->admin))
 			break ;
 		philo_sleeps(philo);
 		philo_thinks(philo);
@@ -93,7 +66,7 @@ int	main(int argc, char **argv)
 	unsigned int	i;
 
 	if (argc < 5 || argc > 6)
-		return (printf("%s\n%s\n", USAGE, EXAMPLE), EXIT_FAILURE);
+		return (printf("%s%s%s%s", USE1, USE2, USE3, EXAMPLE), EXIT_FAILURE);
 	if (init_admin(argc, argv, &data) == FALSE)
 		return (printf("%s\n", ERR_INPUT), EXIT_FAILURE);
 	i = 0;

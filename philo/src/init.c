@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 18:30:32 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:44:45 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 
 int	setup_philos(t_admin *data)
 {
-	int i;
+	int	i;
 
 	data->philos = malloc(data->philo_count * sizeof(t_philo));
 	if (!data->philos)
@@ -77,7 +77,7 @@ int	setup_philos(t_admin *data)
 
 void	clean_and_destroy(t_admin *data)
 {
-	int i;
+	int	i;
 
 	if (!data)
 		return ;

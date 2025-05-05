@@ -6,12 +6,11 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:36:53 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:21:46 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:47:04 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
 
 unsigned long	get_current_time_ms(void)
 {

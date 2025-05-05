@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:45:55 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/04/28 16:29:42 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:52:44 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	my_is_unsigned_nbr(const char *str)
 
 unsigned int	my_atoui(const char *str)
 {
-	unsigned int	result;
+	unsigned long	result;
 	int				i;
 
 	result = 0;
@@ -52,13 +52,13 @@ unsigned int	my_atoui(const char *str)
 	if (str[i] == '+')
 		i++;
 	if (*str == '\0')
-		return (FALSE);
+		return (0);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (result > (UINT_MAX - (str[i] - '0')) / 10)
-			return 0; // Overflow, return 0 or handle as needed
+			return (0);
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
-	return result;
+	return ((unsigned int)result);
 }

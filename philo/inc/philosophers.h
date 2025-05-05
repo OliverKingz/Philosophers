@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:25:13 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:25:25 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define MSG_SLEEP "is sleeping"
 # define MSG_THINK "is thinking"
 # define MSG_DEAD "died"
+# define MSG_FINISH "finished eating"
 
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
@@ -61,8 +62,9 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	unsigned long	lastmeal_time;
-	pthread_mutex_t	meal_lock;
 	int				meals_eaten;
+	pthread_mutex_t	meal_lock;
+	int				is_finished;
 	struct s_admin	*admin;
 }					t_philo;
 
@@ -72,7 +74,7 @@ typedef struct s_admin
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
-	unsigned int	min_meals;
+	int				min_meals;
 	unsigned long	start_time;
 	pthread_t		admin_thread;
 	t_philo			*philos;

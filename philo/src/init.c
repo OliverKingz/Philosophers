@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 01:29:45 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:27:16 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 	data->time_to_die = my_atoui(argv[2]);
 	data->time_to_eat = my_atoui(argv[3]);
 	data->time_to_sleep = my_atoui(argv[4]);
-	data->min_meals = UINT_MAX;
+	data->min_meals = -1;
 	if (argc == 6)
-		data->min_meals = my_atoui(argv[5]);
-	if ((data->philo_count < 2) || (data->philo_count > MAX_PHILO))
+		data->min_meals = (int)my_atoui(argv[5]);
+	if (data->philo_count > MAX_PHILO)
 		return (FALSE);
 	if (data->time_to_die < data->time_to_eat + data->time_to_sleep)
 		return (FALSE);
@@ -69,6 +69,7 @@ int	setup_philos(t_admin *data)
 		data->philos[i].right_fork = &data->forks[(i + 1) % data->philo_count];
 		data->philos[i].lastmeal_time = data->start_time;
 		data->philos[i].meals_eaten = 0;
+		data->philos[i].is_finished = FALSE;
 		data->philos[i].admin = data;
 		pthread_mutex_init(&data->philos[i].meal_lock, NULL);
 		i++;

@@ -6,13 +6,13 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:45:55 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 19:52:44 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:57:23 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	my_is_unsigned_nbr(const char *str)
+int	is_positive_nbr(const char *str)
 {
 	if (str == NULL)
 		return (FALSE);
@@ -61,4 +61,15 @@ unsigned int	my_atoui(const char *str)
 		i++;
 	}
 	return ((unsigned int)result);
+}
+
+int	ft_isspace(int c)
+{
+	return (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v');
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
 }

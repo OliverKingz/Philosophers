@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 18:44:45 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:03:50 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	init_admin(int argc, char **argv, t_admin *data)
 
 int	arg_to_admin(int argc, char **argv, t_admin *data)
 {
-	if (!my_is_unsigned_nbr(argv[1]) || !my_is_unsigned_nbr(argv[2])
-		|| !my_is_unsigned_nbr(argv[3]) || !my_is_unsigned_nbr(argv[4])
-		|| (argc == 6 && !my_is_unsigned_nbr(argv[5])))
+	if (!is_positive_nbr(argv[1]) || !is_positive_nbr(argv[2])
+		|| !is_positive_nbr(argv[3]) || !is_positive_nbr(argv[4]) || (argc == 6
+			&& !is_positive_nbr(argv[5])))
 		return (FALSE);
 	data->philo_count = my_atoui(argv[1]);
 	data->time_to_die = my_atoui(argv[2]);
@@ -48,6 +48,10 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 	if (argc == 6)
 		data->min_meals = (int)my_atoui(argv[5]);
 	if (data->philo_count > MAX_PHILO)
+		return (FALSE);
+	if (data->philo_count == 0 || data->time_to_die == 0
+		|| data->time_to_eat == 0 || data->time_to_sleep == 0
+		|| data->min_meals == 0)
 		return (FALSE);
 	return (TRUE);
 }

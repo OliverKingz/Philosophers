@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 19:46:14 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:08:21 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 # define USE3 "[<number_of_times_each_philosopher_must_eat>]\n"
 # define EXAMPLE "Example: ./philo 3 400 200 200\n"
 
-# define MAX_PHILO 200
-# define MIN_WAIT 1000
-
 # define MSG_FORK "has taken a fork"
 # define MSG_EAT "is eating"
 # define MSG_SLEEP "is sleeping"
@@ -46,6 +43,9 @@
 # define CYAN "\033[1;36m"
 
 # define ERR_INPUT "Error: Invalid input"
+
+# define MAX_PHILO 200
+# define MIN_WAIT 1000
 
 # define SEC_TO_USEC 1000000
 # define SEC_TO_MSEC 1000
@@ -83,13 +83,23 @@ typedef struct s_admin
 	int				running;
 }					t_admin;
 
+// main.c
+
+void				*admin_routine(void *arg);
+void				*philo_routine(void *arg);
+
+// init.c
+
 int					init_admin(int argc, char **argv, t_admin *data);
 int					setup_philos(t_admin *data);
 int					arg_to_admin(int argc, char **argv, t_admin *data);
 void				clean_and_destroy(t_admin *data);
 
+// time.c
 unsigned long		get_elapsed_time_ms(t_admin *data);
 unsigned long		get_current_time_ms(void);
+
+// routine_admin.c
 
 int					simulation_running(t_admin *data);
 void				stop_simulation(t_admin *data);
@@ -97,24 +107,23 @@ int					check_philo_death(t_admin *data, t_philo *philo);
 int					check_philo_finish(t_admin *data, t_philo *philo,
 						int *philos_full);
 
+// routine_philo.c
+
 void				philo_take_forks(t_philo *philo);
 void				philo_eats(t_philo *philo);
 void				philo_release_forks(t_philo *philo);
 void				philo_sleeps(t_philo *philo);
 void				philo_thinks(t_philo *philo);
 
-void				*admin_routine(void *arg);
-void				*philo_routine(void *arg);
+// log.c
 
 const char			*assign_color(int id);
 void				print_log(t_admin *data, t_philo *philo, const char *msg);
 
-int					my_is_unsigned_nbr(const char *str);
+// utils.c
+
+int					is_positive_nbr(const char *str);
 unsigned int		my_atoui(const char *str);
-
-long				ft_atol(const char *nptr);
-int					check_args_int(char **args);
-
 int					ft_isspace(int c);
 int					ft_isdigit(int c);
 

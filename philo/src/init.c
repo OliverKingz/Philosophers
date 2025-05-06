@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 20:03:50 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:38:21 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,7 @@ void	clean_and_destroy(t_admin *data)
 	{
 		i = -1;
 		while (++i < (int)data->philo_count)
-		{
 			pthread_mutex_destroy(&data->philos[i].meal_lock);
-			data->philos[i].left_fork = NULL;
-			data->philos[i].right_fork = NULL;
-		}
 		(free(data->philos), data->philos = NULL);
 	}
 	pthread_mutex_destroy(&data->sim_lock);

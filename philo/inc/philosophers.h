@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 20:08:21 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:38:49 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_admin
 
 void				*admin_routine(void *arg);
 void				*philo_routine(void *arg);
+void				wait_threads_finish(t_admin *data);
 
 // init.c
 

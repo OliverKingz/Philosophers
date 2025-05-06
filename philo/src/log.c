@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 22:07:28 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 20:00:55 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:18:24 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ const char	*assign_color(int id)
 
 void	print_log(t_admin *data, t_philo *philo, const char *msg)
 {
+	if (!simulation_running(philo->admin))
+		return ;
 	pthread_mutex_lock(&data->print_lock);
 	printf("%s%lu %d %s\033[0m\n", assign_color(philo->id),
 		get_elapsed_time_ms(data), philo->id, msg);

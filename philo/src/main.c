@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 19:10:23 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:20:24 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,11 @@ void	*philo_routine(void *arg)
 		pthread_mutex_unlock(philo->left_fork);
 		return (NULL);
 	}
-	while (TRUE)
+	while (simulation_running(philo->admin))
 	{
-		if (!simulation_running(philo->admin))
-			break ;
 		philo_take_forks(philo);
 		philo_eats(philo);
 		philo_release_forks(philo);
-		if (!simulation_running(philo->admin))
-			break ;
 		philo_sleeps(philo);
 		philo_thinks(philo);
 	}

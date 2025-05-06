@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:20 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:38:27 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ unsigned long		get_current_time_ms(void);
 
 // routine_admin.c
 
-int					is_sim_running(t_admin *data);
+int					is_simulation_running(t_admin *data);
 void				stop_simulation_run(t_admin *data);
 int					check_philo_death(t_admin *data, t_philo *philo);
 int					check_philo_finish(t_admin *data, t_philo *philo,

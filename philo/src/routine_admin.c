@@ -6,13 +6,13 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:01:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:20 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:38:27 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	is_sim_running(t_admin *data)
+int	is_simulation_running(t_admin *data)
 {
 	pthread_mutex_lock(&data->run_lock);
 	if (!data->is_running)

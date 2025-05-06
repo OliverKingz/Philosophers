@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:20 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:38:27 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*admin_routine(void *arg)
 		i = -1;
 		while (++i < (int)data->philo_count)
 		{
-			if (!is_sim_running(data))
+			if (!is_simulation_running(data))
 				return (NULL);
 			pthread_mutex_lock(&data->philos[i].meal_lock);
 			if (check_philo_death(data, &data->philos[i]))
@@ -53,7 +53,7 @@ void	*philo_routine(void *arg)
 		pthread_mutex_unlock(philo->left_fork);
 		return (NULL);
 	}
-	while (is_sim_running(philo->admin))
+	while (is_simulation_running(philo->admin))
 	{
 		philo_take_forks(philo);
 		philo_eats(philo);

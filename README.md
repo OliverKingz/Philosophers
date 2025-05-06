@@ -154,3 +154,23 @@ Also thanks to peers and mentors for their feedback and support during the devel
 
 - **42 Network**: For providing the resources and environment to work on this project.
 - **Peers and Mentors**: For their valuable feedback and support during the development process.
+
+---
+
+## TBD
+- Test checking parser
+	- Not enough arguments
+	- Negative numbers
+	- 0 philosophers
+	- Overflow
+- Test case for 1 philosopher. (Edge case)
+- Test case when a philosopher dies. 
+- Test case when no philosopher dies.
+- Test with a large number of philosophers. (Stress test)
+- Test memory leaks with valgrind --tools=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
+- Test data races with valgrind --tools=helgrind --track-origins=yes
+
+Tips
+- Use color in the output to make it more readable.
+- Use your own my_usleep as it is more precise than the standard one.
+- You can use write instead of printf to avoid buffering issues.

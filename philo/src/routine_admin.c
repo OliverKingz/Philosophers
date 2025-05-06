@@ -6,37 +6,37 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 23:01:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/05 19:35:20 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:37:20 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	simulation_running(t_admin *data)
+int	is_sim_running(t_admin *data)
 {
-	pthread_mutex_lock(&data->sim_lock);
-	if (!data->running)
+	pthread_mutex_lock(&data->run_lock);
+	if (!data->is_running)
 	{
-		pthread_mutex_unlock(&data->sim_lock);
+		pthread_mutex_unlock(&data->run_lock);
 		return (FALSE);
 	}
-	pthread_mutex_unlock(&data->sim_lock);
+	pthread_mutex_unlock(&data->run_lock);
 	return (TRUE);
 }
 
-void	stop_simulation(t_admin *data)
+void	stop_simulation_run(t_admin *data)
 {
-	pthread_mutex_lock(&data->sim_lock);
-	data->running = FALSE;
-	pthread_mutex_unlock(&data->sim_lock);
+	pthread_mutex_lock(&data->run_lock);
+	data->is_running = FALSE;
+	pthread_mutex_unlock(&data->run_lock);
 }
 
 int	check_philo_death(t_admin *data, t_philo *philo)
 {
 	if (get_current_time_ms() - philo->lastmeal_time > data->time_to_die)
 	{
-		stop_simulation(data);
 		print_log(data, philo, MSG_DEAD);
+		stop_simulation_run(data);
 		pthread_mutex_unlock(&philo->meal_lock);
 		return (TRUE);
 	}

@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:46:11 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 18:38:49 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:37:20 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@
 
 typedef struct s_philo
 {
+	struct s_admin	*admin;
 	int				id;
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	meal_lock;
 	unsigned long	lastmeal_time;
 	int				meals_eaten;
-	pthread_mutex_t	meal_lock;
 	int				is_finished;
-	struct s_admin	*admin;
 }					t_philo;
 
 typedef struct s_admin
@@ -78,9 +78,9 @@ typedef struct s_admin
 	pthread_t		admin_thread;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	sim_lock;
 	pthread_mutex_t	print_lock;
-	int				running;
+	pthread_mutex_t	run_lock;
+	int				is_running;
 }					t_admin;
 
 // main.c
@@ -97,13 +97,14 @@ int					arg_to_admin(int argc, char **argv, t_admin *data);
 void				clean_and_destroy(t_admin *data);
 
 // time.c
+
 unsigned long		get_elapsed_time_ms(t_admin *data);
 unsigned long		get_current_time_ms(void);
 
 // routine_admin.c
 
-int					simulation_running(t_admin *data);
-void				stop_simulation(t_admin *data);
+int					is_sim_running(t_admin *data);
+void				stop_simulation_run(t_admin *data);
 int					check_philo_death(t_admin *data, t_philo *philo);
 int					check_philo_finish(t_admin *data, t_philo *philo,
 						int *philos_full);

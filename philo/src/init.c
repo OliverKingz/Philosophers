@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 18:38:21 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:35:33 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	memset(data, '\0', sizeof(t_admin));
 	if (!arg_to_admin(argc, argv, data))
 		return (FALSE);
-	data->running = TRUE;
+	data->is_running = TRUE;
 	data->start_time = get_current_time_ms();
 	data->forks = malloc(data->philo_count * sizeof(pthread_mutex_t));
 	if (!data->forks)
@@ -27,7 +27,7 @@ int	init_admin(int argc, char **argv, t_admin *data)
 	i = -1;
 	while (++i < (int)data->philo_count)
 		pthread_mutex_init(&data->forks[i], NULL);
-	pthread_mutex_init(&data->sim_lock, NULL);
+	pthread_mutex_init(&data->run_lock, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
 	if (!setup_philos(data))
 		return (clean_and_destroy(data), (FALSE));
@@ -99,6 +99,6 @@ void	clean_and_destroy(t_admin *data)
 			pthread_mutex_destroy(&data->philos[i].meal_lock);
 		(free(data->philos), data->philos = NULL);
 	}
-	pthread_mutex_destroy(&data->sim_lock);
+	pthread_mutex_destroy(&data->run_lock);
 	pthread_mutex_destroy(&data->print_lock);
 }

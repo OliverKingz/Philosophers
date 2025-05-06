@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 23:47:31 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 18:39:13 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:10:23 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->admin->philo_count == 1)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		print_log(philo->admin, philo, MSG_FORK);
+		usleep(philo->admin->time_to_die * MSEC_TO_USEC);
+		pthread_mutex_unlock(philo->left_fork);
+		return (NULL);
+	}
 	while (TRUE)
 	{
 		if (!simulation_running(philo->admin))

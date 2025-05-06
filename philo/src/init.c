@@ -6,7 +6,7 @@
 /*   By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 23:35:52 by ozamora-          #+#    #+#             */
-/*   Updated: 2025/05/06 20:35:33 by ozamora-         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:00:48 by ozamora-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	arg_to_admin(int argc, char **argv, t_admin *data)
 	if (data->philo_count > MAX_PHILO)
 		return (FALSE);
 	if (data->philo_count == 0 || data->time_to_die == 0
-		|| data->time_to_eat == 0 || data->time_to_sleep == 0
-		|| data->min_meals == 0)
+		|| data->time_to_eat == 0 || data->time_to_sleep == 0)
 		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 #    By: ozamora- <ozamora-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 01:21:27 by ozamora-          #+#    #+#              #
-#    Updated: 2025/05/06 21:17:46 by ozamora-         ###   ########.fr        #
+#    Updated: 2025/05/08 23:15:20 by ozamora-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,8 @@ VALGRIND_FLAGS	:= -s --tool=memcheck --leak-check=full --show-leak-kinds=all --t
 VALGRIND_FLAGS_DATARACE	:= -s --tool=helgrind
 
 ifeq ($(DEBUG),1)
-	CFLAGS += -g3 -fsanitize=address
-	LDFLAGS += -fsanitize=address
+	CFLAGS += -g3 -fsanitize=thread 
+	LDFLAGS += -fsanitize=thread
 endif
 
 ifeq ($(VALGRIND),1)

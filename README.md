@@ -17,7 +17,6 @@ Keywords
 - **Mutexes**
 - **Deadlock Prevention**
 - **Processes**
-- **Semaphores**
 - **C Programming**
 - **Synchronization**
 - **Simulation**
@@ -56,13 +55,13 @@ The Philosophers project is a simulation of the classic Dining Philosophers prob
 
 - **Thread Management**: Each philosopher is represented by a separate thread.
 - **Mutex Synchronization**: Forks are protected by mutexes to prevent race conditions.
-- **State Logging**: The program logs the state of each philosopher (eating, sleeping, thinking) with timestamps.
+- **Logging**: The program logs the state of each philosopher (eating, sleeping, thinking) with timestamps.
 - **Deadlock Prevention**: The program ensures that no deadlock occurs by carefully managing the order in which philosophers pick up forks.
 - **Starvation Prevention**: The program ensures that no philosopher starves by enforcing a maximum time between meals.
 
 ---
 
-## Bonus Features (Not done)
+## Bonus Features (Not implemented)
 
 - **Process Management**: The bonus part uses processes instead of threads.
 - **Semaphore Synchronization**: Forks are managed using semaphores.
@@ -103,26 +102,13 @@ The Philosophers project is a simulation of the classic Dining Philosophers prob
 | `./philo 3 400 100 100 5` | 3 philosophers, die after 400ms, eat for 100ms, sleep for 100ms, eat 5 times. | Simulation stops after each philosopher has eaten 5 times.     |
 | `./philo 1 800 200 200`   | 1 philosopher, die after 800ms, eat for 200ms, sleep for 200ms.               | Philosopher dies after 800ms since there's only one fork.      |
 
-### Bonus Usage
-
-For bonus features, use the bonus rule in the Makefile:
-
-```bash
-make bonus
-```
-
-| **Input Command**               | **Description**                                                               | **Expected Output**                                            |
-| ------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `./philo_bonus 5 800 200 200`   | 5 philosophers, die after 800ms, eat for 200ms, sleep for 200ms.              | Philosophers alternate between eating, sleeping, and thinking. |
-| `./philo_bonus 3 400 100 100 5` | 3 philosophers, die after 400ms, eat for 100ms, sleep for 100ms, eat 5 times. | Simulation stops after each philosopher has eaten 5 times.     |
-
 ### Error Handling and Testing
 
 | **Input Command**          | **Description**                  | **Expected Output**                                     |
 | -------------------------- | -------------------------------- | ------------------------------------------------------- |
-| `./philo 5 800 200`        | Missing arguments.               | Error message: `Error: Invalid number of arguments`.    |
-| `./philo 5 800 200 200 -5` | Negative number of times to eat. | Error message: `Error: Invalid argument`.               |
-| `./philo 0 800 200 200`    | Zero philosophers.               | Error message: `Error: Invalid number of philosophers`. |
+| `./philo 5 800 200`        | Missing arguments.               | Error message: `Error: Invalid input`.                  |
+| `./philo 5 800 200 200 -5` | Negative number of times to eat. | Error message: `Error: Invalid input`.                  |
+| `./philo 0 800 200 200`    | Zero philosophers.               | Error message: `Error: Invalid input`.                  |
 
 ---
 

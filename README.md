@@ -33,16 +33,18 @@ Made by: [![Contributors Display](https://badges.pufler.dev/contributors/oliverk
 
 - [Overview](#overview)
 - [Features](#features)
-- [Bonus Features](#bonus-features-not-done)
+- [Bonus Features (Not Implemented)](#bonus-features-not-implemented)
 - [Requirements](#requirements)
 - [How to Run](#how-to-run)
   - [Example Usage](#example-usage)
-  - [Bonus Usage](#bonus-usage)
-  - [Error Handling](#error-handling-and-testing)
+- [Testing](#testing)
+  - [Input Validation Tests](#input-validation-tests)
+  - [Simulation Tests](#simulation-tests)
+  - [Advanced Checks](#advanced-checks)
+  - [Tips for Testing](#tips-for-testing)
 - [What I Learned](#what-i-learned)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
-
 ---
 
 ## Overview
@@ -61,7 +63,7 @@ The Philosophers project is a simulation of the classic Dining Philosophers prob
 
 ---
 
-## Bonus Features (Not implemented)
+## Bonus Features (not implemented)
 
 - **Process Management**: The bonus part uses processes instead of threads.
 - **Semaphore Synchronization**: Forks are managed using semaphores.
@@ -102,13 +104,46 @@ The Philosophers project is a simulation of the classic Dining Philosophers prob
 | `./philo 3 400 100 100 5` | 3 philosophers, die after 400ms, eat for 100ms, sleep for 100ms, eat 5 times. | Simulation stops after each philosopher has eaten 5 times.     |
 | `./philo 1 800 200 200`   | 1 philosopher, die after 800ms, eat for 200ms, sleep for 200ms.               | Philosopher dies after 800ms since there's only one fork.      |
 
-### Error Handling and Testing
+---
 
-| **Input Command**          | **Description**                  | **Expected Output**                                     |
-| -------------------------- | -------------------------------- | ------------------------------------------------------- |
-| `./philo 5 800 200`        | Missing arguments.               | Error message: `Error: Invalid input`.                  |
-| `./philo 5 800 200 200 -5` | Negative number of times to eat. | Error message: `Error: Invalid input`.                  |
-| `./philo 0 800 200 200`    | Zero philosophers.               | Error message: `Error: Invalid input`.                  |
+## Testing
+
+### Input Validation Tests
+
+| **Test Case**        | **Command**                  | **Expected Result**    |
+| -------------------- | ---------------------------- | ---------------------- |
+| Not enough arguments | `./philo 5 800 200`          | `Error: Invalid input` |
+| Negative numbers     | `./philo 5 -800 200 200`     | `Error: Invalid input` |
+| Zero philosophers    | `./philo 0 800 200 200`      | `Error: Invalid input` |
+| Integer overflow     | `./philo 9999999999 800 200` | `Error: Invalid input` |
+
+### Simulation Tests
+
+| **Test Case**             | **Command**               | **Expected Result**                       |
+| ------------------------- | ------------------------- | ----------------------------------------- |
+| 1 philosopher (edge case) | `./philo 1 800 200 200`   | Philosopher dies (only 1 fork available)  |
+| Philosopher dies          | `./philo 2 200 100 100`   | "X 1 died" (starvation)                   |
+| No philosopher dies       | `./philo 4 410 200 200 5` | All philosophers eat 5 times successfully |
+| Stress test (200 philos)  | `./philo 200 410 200 200` | Runs without crashes/deadlocks            |
+
+### Advanced Checks
+
+```bash
+# Memory leaks (Valgrind)
+valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./philo 4 410 200 200
+
+# Data races (Helgrind)
+valgrind --tool=helgrind ./philo 4 410 200 200
+
+# Alternative: ThreadSanitizer (Clang)
+./philo_tsan 4 410 200 200  # Compiled with `-fsanitize=thread`
+```
+
+### Tips for Testing
+
+- **Colors**: Use colors for each philosophers to make the output more readable.
+- **Precise timing**: If you need more precision, implement `my_usleep()` for better accuracy than standard `usleep`.
+- **Output**: If you need more precision, use `write()` over `printf()` to avoid buffering issues in logs.
 
 ---
 
@@ -140,23 +175,3 @@ Also thanks to peers and mentors for their feedback and support during the devel
 
 - **42 Network**: For providing the resources and environment to work on this project.
 - **Peers and Mentors**: For their valuable feedback and support during the development process.
-
----
-
-## TBD
-- Test checking parser
-	- Not enough arguments
-	- Negative numbers
-	- 0 philosophers
-	- Overflow
-- Test case for 1 philosopher. (Edge case)
-- Test case when a philosopher dies. 
-- Test case when no philosopher dies.
-- Test with a large number of philosophers. (Stress test)
-- Test memory leaks with valgrind --tools=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
-- Test data races with valgrind --tools=helgrind --track-origins=yes
-
-Tips
-- Use color in the output to make it more readable.
-- Use your own my_usleep as it is more precise than the standard one.
-- You can use write instead of printf to avoid buffering issues.
